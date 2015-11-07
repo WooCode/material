@@ -11,6 +11,15 @@ md-radio-button,
   white-space: nowrap;
   cursor: pointer;
 
+  // disabled
+  &[disabled] {
+    cursor: no-drop;
+
+    .md-container {
+      cursor: no-drop;
+    }
+  }
+
   .md-container {
     box-sizing: border-box;
     position: relative;

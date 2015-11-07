@@ -20,6 +20,14 @@ md-switch {
   height: 30px;
   line-height: 28px;
 
+  &[disabled] {
+    cursor: no-drop;
+
+    .md-container {
+      cursor: no-drop
+    }
+  }
+
   &.md-block {
     display: block;
   }
