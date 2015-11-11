@@ -667,11 +667,6 @@ function MdDialogProvider($$interimElementProvider) {
      * Listen for escape keys and outside clicks to auto close
      */
     function activateListeners(element, options) {
-      var window = angular.element($window);
-      var onWindowResize = $mdUtil.debounce(function(){
-        stretchDialogContainerToViewport(element, options);
-      }, 60);
-
       var removeListeners = [];
       var smartClose = function() {
         // Only 'confirm' dialogs have a cancel button... escape/clickOutside will
@@ -694,14 +689,12 @@ function MdDialogProvider($$interimElementProvider) {
         // Add keydown listeners
         element.on('keydown', keyHandlerFn);
         target.on('keydown', keyHandlerFn);
-        window.on('resize', onWindowResize);
 
         // Queue remove listeners function
         removeListeners.push(function() {
 
           element.off('keydown', keyHandlerFn);
           target.off('keydown', keyHandlerFn);
-          window.off('resize', onWindowResize);
 
         });
       }
@@ -858,28 +851,11 @@ function MdDialogProvider($$interimElementProvider) {
     }
 
     /**
-     * Ensure the dialog container fill-stretches to the viewport
-     */
-    function stretchDialogContainerToViewport(container, options) {
-      var isFixed = $window.getComputedStyle($document[0].body).position == 'fixed';
-      var backdrop = options.backdrop ? $window.getComputedStyle(options.backdrop[0]) : null;
-      var height = backdrop ? Math.min($document[0].body.clientHeight, Math.ceil(Math.abs(parseInt(backdrop.height, 10)))) : 0;
-
-      container.css({
-        top: (isFixed ? $mdUtil.scrollTop(options.parent) : 0) + 'px',
-        height: height ? height + 'px' : '100%'
-      });
-
-      return container;
-    }
-
-    /**
      *  Dialog open and pop-in animation
      */
     function dialogPopIn(container, options) {
       // Add the `md-dialog-container` to the DOM
       options.parent.append(container);
-      stretchDialogContainerToViewport(container, options);
 
       var dialogEl = container.find('md-dialog');
       var animator = $mdUtil.dom.animator;
