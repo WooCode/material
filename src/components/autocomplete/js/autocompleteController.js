@@ -79,31 +79,35 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
     if (!elements) return $mdUtil.nextTick(positionDropdown, false, $scope);
     var hrect  = elements.wrap.getBoundingClientRect(),
         vrect  = elements.snap.getBoundingClientRect(),
-        root   = elements.root.getBoundingClientRect(),
-        top    = vrect.bottom - root.top,
-        bot    = root.bottom - vrect.top,
-        left   = hrect.left - root.left,
+        windowHeight = elements.window.innerHeight,
+        windowWidth = elements.window.innerWidth,
+        top    = vrect.bottom,
+        bot    = windowHeight - vrect.top,
+        left   = hrect.left,
         width  = hrect.width,
         offset = getVerticalOffset(),
         styles;
+
     // Adjust the width to account for the padding provided by `md-input-container`
     if ($attrs.mdFloatingLabel) {
       left += INPUT_PADDING;
       width -= INPUT_PADDING * 2;
     }
+
     styles = {
       left:     left + 'px',
       minWidth: width + 'px',
-      maxWidth: Math.max(hrect.right - root.left, root.right - hrect.left) - MENU_PADDING + 'px'
+      maxWidth: Math.max(hrect.right, windowWidth - hrect.left) - MENU_PADDING + 'px'
     };
-    if (top > bot && root.height - hrect.bottom - MENU_PADDING < MAX_HEIGHT) {
+
+    if (top > bot && windowHeight - hrect.bottom - MENU_PADDING < MAX_HEIGHT) {
       styles.top       = 'auto';
       styles.bottom    = bot + 'px';
-      styles.maxHeight = Math.min(MAX_HEIGHT, hrect.top - root.top - MENU_PADDING) + 'px';
+      styles.maxHeight = Math.min(MAX_HEIGHT, hrect.top - MENU_PADDING) + 'px';
     } else {
       styles.top       = (top - offset) + 'px';
       styles.bottom    = 'auto';
-      styles.maxHeight = Math.min(MAX_HEIGHT, root.bottom - hrect.bottom - MENU_PADDING) + 'px';
+      styles.maxHeight = Math.min(MAX_HEIGHT, windowHeight - hrect.bottom - MENU_PADDING) + 'px';
     }
 
     elements.$.scrollContainer.css(styles);
@@ -133,7 +137,7 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
     function correctHorizontalAlignment () {
       var dropdown = elements.scrollContainer.getBoundingClientRect(),
           styles   = {};
-      if (dropdown.right > root.right - MENU_PADDING) {
+      if (dropdown.right > windowWidth - MENU_PADDING) {
         styles.left = (hrect.right - dropdown.width) + 'px';
       }
       elements.$.scrollContainer.css(styles);
@@ -195,7 +199,8 @@ function MdAutocompleteCtrl ($scope, $element, $mdUtil, $mdConstant, $mdTheming,
       ul:    $element.find('ul')[0],
       input: $element.find('input')[0],
       wrap:  $element.find('md-autocomplete-wrap')[0],
-      root:  document.body
+      root:  document.body,
+      window: window
     };
     elements.li   = elements.ul.getElementsByTagName('li');
     elements.snap = getSnapTarget();

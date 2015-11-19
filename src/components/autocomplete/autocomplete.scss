@@ -194,7 +194,7 @@ md-autocomplete {
 }
 
 .md-virtual-repeat-container.md-autocomplete-suggestions-container {
-  position: absolute;
+  position: fixed;
   box-shadow: 0 2px 5px rgba(black, 0.25);
   height: 41px * 5.5;
   max-height: 41px * 5.5;
