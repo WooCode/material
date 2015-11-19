@@ -243,7 +243,7 @@ function MdAutocomplete () {
             </md-input-container>';
         } else {
           return '\
-            <input flex type="search"\
+            <input type="search"\
                 ' + (tabindex != null ? 'tabindex="' + tabindex + '"' : '') + '\
                 id="{{ inputId || \'input-\' + $mdAutocompleteCtrl.id }}"\
                 name="{{inputName}}"\
