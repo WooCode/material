@@ -13,7 +13,7 @@ describe('<md-virtual-repeat>', function() {
       '     style="height: 10px; width: 10px; box-sizing: border-box;">' +
       '       {{i}} {{$index}}' +
       '</div>';
-  var container, repeater, component, $$rAF, $compile, $document, scope,
+  var container, repeater, component, $$rAF, $compile, $document, scope, $timeout
       scroller, sizer, offsetter;
 
   var NUM_ITEMS = 110,
@@ -21,7 +21,7 @@ describe('<md-virtual-repeat>', function() {
       HORIZONTAL_PX = 150,
       ITEM_SIZE = 10;
 
-  beforeEach(inject(function(_$$rAF_, _$compile_, _$document_, $rootScope, _$material_) {
+  beforeEach(inject(function(_$$rAF_, _$compile_, _$document_, $rootScope, _$timeout_, _$material_) {
     repeater = angular.element(REPEATER_HTML);
     container = angular.element(CONTAINER_HTML).append(repeater);
     component = null;
@@ -29,6 +29,7 @@ describe('<md-virtual-repeat>', function() {
     $material = _$material_;
     $compile = _$compile_;
     $document = _$document_;
+    $timeout = _$timeout_;
     scope = $rootScope.$new();
     scope.startIndex = 0;
     scroller = null;
@@ -377,6 +378,7 @@ describe('<md-virtual-repeat>', function() {
     createRepeater();
     scope.items = createItems(NUM_ITEMS);
     scope.$apply();
+    $timeout.flush();
     $$rAF.flush();
 
     expect(container[0].offsetWidth).toBe(150);
@@ -502,6 +504,7 @@ describe('<md-virtual-repeat>', function() {
     scope.items = createItems(200);
     createRepeater();
     scope.$apply();
+    $timeout.flush();
 
     expect(scroller[0].scrollTop).toBe(10 * ITEM_SIZE);
   });
