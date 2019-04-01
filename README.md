@@ -1,3 +1,48 @@
+## Setup
+ - Recommended node version: 0.12.7
+ 
+ First install or update your local project's **npm** tools:
+
+```bash
+# First install all the NPM tools:
+npm install
+```
+
+## Updates
+
+Make changes to the files you need to update.
+
+Then to build and deploy assets for each component individually, run the command
+
+```bash
+gulp build-all-modules
+```
+
+All component modules are compiled and distributed to:
+
+```text
+ -- dist
+    -- modules
+       -- js
+          -- core
+          -- <component folder>
+```
+You can push the changes to the forked material repo. Next copy the js/css files from the dist directory into your bower-material project.
+
+Bump up the project version number in you local bower-material package.json file. Update the version number with the commit id from the commit you made in the forked material repo:
+
+```code
+7c9cf7d -->   "version": "1.0.0-master-7c9cf7d",
+```
+Push the commit with the updated files and write the new version number in the commit message:
+
+```code
+version: 1.0.0-rc4-master-7c9cf7d
+```
+
+
+
+
 # Material Design for AngularJS Apps [![Build Status](https://travis-ci.org/angular/material.svg)](https://travis-ci.org/angular/material)
 
 [Material Design](https://www.google.com/design/spec/material-design/) is a specification for a
